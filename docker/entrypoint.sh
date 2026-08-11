@@ -10,5 +10,8 @@ php artisan db:seed --force --class=DatabaseSeeder
 echo "=== Seed comptes de test provinces ==="
 php artisan db:seed --force --class=TestProvincesSeeder
 
+echo "=== Seed alertes de demonstration ==="
+php artisan db:seed --force --class=AlertesSeeder
+
 echo "=== Lancement Apache ==="
 exec apache2-foreground
