@@ -18,9 +18,11 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 
-RUN php artisan storage:link || true
+RUN chmod +x /usr/local/bin/entrypoint.sh \
+    && php artisan storage:link || true
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
