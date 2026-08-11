@@ -20,7 +20,9 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 
-RUN chmod +x /usr/local/bin/entrypoint.sh \
+RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/framework/testing \
+    && chmod -R 777 storage bootstrap/cache \
+    && chmod +x /usr/local/bin/entrypoint.sh \
     && php artisan storage:link || true
 
 EXPOSE 80
