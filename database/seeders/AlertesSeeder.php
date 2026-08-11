@@ -13,15 +13,15 @@ class AlertesSeeder extends Seeder
     {
         $comptesManquants = [
             ['name' => 'Rova MOUANDZA', 'email' => 'rova@test.gab', 'type' => 'particulier', 'phone' => '074000111', 'city' => 'Libreville'],
-            ['name' => 'CHL Chimie', 'email' => 'chl@test.gab', 'type' => 'structure', 'structure_type' => 'laboratoire', 'phone' => '064000222', 'city' => 'Libreville'],
+            ['name' => 'CHL Chimie', 'email' => 'chl@test.gab', 'type' => 'structure', 'structure_type' => 'laboratoire', 'phone' => '064000222', 'city' => 'Libreville', 'password' => 'Struct2026X'],
         ];
 
         foreach ($comptesManquants as $c) {
-            User::firstOrCreate(
+            User::updateOrCreate(
                 ['email' => $c['email']],
                 [
                     'name' => $c['name'],
-                    'password' => 'Test2026Rova',
+                    'password' => $c['password'] ?? 'Test2026Rova',
                     'type' => $c['type'],
                     'structure_type' => $c['structure_type'] ?? null,
                     'phone' => $c['phone'],
