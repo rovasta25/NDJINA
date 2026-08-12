@@ -67,7 +67,6 @@ class AdminController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'type' => ['required', Rule::in(['admin', 'structure', 'particulier'])],
         ], [
             'name.required' => 'Le nom est obligatoire.',
             'email.required' => 'L\'adresse e-mail est obligatoire.',
@@ -78,6 +77,7 @@ class AdminController extends Controller
             'password.confirmed' => 'La confirmation du mot de passe ne correspond pas.',
         ]);
 
+        $data['type'] = 'admin';
         $data['city'] = $data['city'] ?? 'Libreville';
 
         User::create($data);

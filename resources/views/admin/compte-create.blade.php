@@ -46,12 +46,8 @@
             </div>
 
             <div class="form-group">
-                <label for="type">Type de compte</label>
-                <select id="type" name="type" required>
-                    <option value="admin" {{ old('type') === 'admin' ? 'selected' : '' }}>Administrateur</option>
-                    <option value="particulier" {{ old('type') === 'particulier' ? 'selected' : '' }}>Particulier</option>
-                    <option value="structure" {{ old('type') === 'structure' ? 'selected' : '' }}>Structure sanitaire</option>
-                </select>
+                <label>Type de compte</label>
+                <input type="text" value="Administrateur" disabled>
             </div>
 
             <div class="form-actions">

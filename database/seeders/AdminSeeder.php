@@ -9,15 +9,35 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        User::firstOrCreate(
-            ['email' => 'admin@ndjina.gab'],
+        $admins = [
             [
+                'email' => 'admin@ndjina.gab',
                 'name' => 'Administrateur NDJINA',
                 'password' => 'AdminNdjina2026!',
-                'type' => 'admin',
-                'phone' => null,
-                'city' => 'Libreville',
-            ]
-        );
+            ],
+            [
+                'email' => 'admin1@ndjina.gab',
+                'name' => 'Administrateur NDJINA 1',
+                'password' => 'AdminNdjina1!',
+            ],
+            [
+                'email' => 'admin2@ndjina.gab',
+                'name' => 'Administrateur NDJINA 2',
+                'password' => 'AdminNdjina2!',
+            ],
+        ];
+
+        foreach ($admins as $admin) {
+            User::firstOrCreate(
+                ['email' => $admin['email']],
+                [
+                    'name' => $admin['name'],
+                    'password' => $admin['password'],
+                    'type' => 'admin',
+                    'phone' => null,
+                    'city' => 'Libreville',
+                ]
+            );
+        }
     }
 }
