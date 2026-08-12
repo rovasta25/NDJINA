@@ -63,7 +63,7 @@
                                     <button class="btn btn-ghost btn-sm btn-danger-ghost" title="Rejeter"><x-icon name="x" class="icon-sm"/></button>
                                 </form>
                             @else
-                                <form method="POST" action="{{ route('admin.alertes.statut', $alerte) }}">
+                                <form method="POST" action="{{ route('admin.alertes.statut', $alerte) }}" data-confirm="Réactiver cette alerte ? Elle redeviendra visible par les donneurs.">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="statut" value="active">

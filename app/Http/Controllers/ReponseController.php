@@ -49,7 +49,12 @@ class ReponseController extends Controller
 
         $reponse->update(['statut' => 'confirmee']);
 
-        return back()->with('success', 'Donneur confirmé. Coordonnées échangées dans la messagerie.');
+        Reponse::where('alerte_id', $reponse->alerte_id)
+            ->where('id', '!=', $reponse->id)
+            ->where('statut', 'en_attente')
+            ->update(['statut' => 'refusee']);
+
+        return back()->with('success', 'Donneur confirmé. Coordonnées échangées dans la messagerie. Les autres propositions ont été annulées.');
     }
 
     public function refuser(Reponse $reponse)

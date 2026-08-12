@@ -72,11 +72,6 @@ class User extends Authenticatable
         return $this->type === 'structure';
     }
 
-    public function isParticulier(): bool
-    {
-        return $this->type === 'particulier';
-    }
-
     public function structureTypeLabel(): string
     {
         return match ($this->structure_type) {
@@ -97,15 +92,5 @@ class User extends Authenticatable
     public function reponses()
     {
         return $this->hasMany(Reponse::class);
-    }
-
-    public function messagesEnvoyes()
-    {
-        return $this->hasMany(Message::class, 'expediteur_id');
-    }
-
-    public function messagesRecus()
-    {
-        return $this->hasMany(Message::class, 'destinataire_id');
     }
 }

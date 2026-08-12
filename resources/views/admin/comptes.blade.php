@@ -8,7 +8,10 @@
             <h1>Gestion des comptes</h1>
             <p class="muted">Gérer les utilisateurs et leurs rôles.</p>
         </div>
-        <a href="{{ route('admin.index') }}" class="btn btn-ghost">Retour</a>
+        <div>
+            <a href="{{ route('admin.comptes.create') }}" class="btn btn-primary"><x-icon name="plus" class="icon-sm"/> Créer un compte</a>
+            <a href="{{ route('admin.index') }}" class="btn btn-ghost">Retour</a>
+        </div>
     </div>
 
     <div class="filter-bar compact">
@@ -41,18 +44,19 @@
             <tbody>
                 @forelse ($users as $u)
                     <tr>
-                        <td><strong>{{ $u->name }}</strong></td>
+                        <td>
+                            <strong>{{ $u->name }}</strong>
+                            @if ($u->isAdmin())
+                                <span class="badge badge-admin"><x-icon name="shield" class="icon-sm"/> Admin</span>
+                            @endif
+                        </td>
                         <td>{{ $u->email }}</td>
                         <td>
-                            <form method="POST" action="{{ route('admin.comptes.type', $u) }}" class="inline-form type-form">
-                                @csrf
-                                @method('PUT')
-                                <select name="type" onchange="this.form.submit()">
-                                    <option value="particulier" {{ $u->type === 'particulier' ? 'selected' : '' }}>Particulier</option>
-                                    <option value="structure" {{ $u->type === 'structure' ? 'selected' : '' }}>Structure</option>
-                                    <option value="admin" {{ $u->type === 'admin' ? 'selected' : '' }}>Admin</option>
-                                </select>
-                            </form>
+                            @if ($u->isAdmin())
+                                <span class="badge badge-admin"><x-icon name="shield" class="icon-sm"/> Admin</span>
+                            @else
+                                <span class="badge">{{ $u->type === 'structure' ? 'Structure' : 'Particulier' }}</span>
+                            @endif
                         </td>
                         <td>{{ $u->city }}</td>
                         <td>{{ $u->alertes_count }}</td>

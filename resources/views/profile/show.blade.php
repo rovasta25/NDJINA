@@ -68,7 +68,7 @@
         <div class="form-card">
             <h2>Mot de passe</h2>
 
-            <form method="POST" action="{{ route('profile.password') }}">
+            <form method="POST" action="{{ route('profile.password') }}" data-confirm="Changer votre mot de passe ?">
                 @csrf
                 @method('PUT')
 

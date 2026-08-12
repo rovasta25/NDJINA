@@ -30,6 +30,12 @@ Route::middleware('guest')->group(function () {
         ->name('register.store');
 });
 
+Route::get('/connexion-admin', [LoginController::class, 'showAdmin'])->name('admin.login');
+Route::post('/connexion-admin', [LoginController::class, 'storeAdmin'])
+    ->middleware('throttle:3,1,admin-login-fast')
+    ->middleware('throttle:5,15,admin-login-block')
+    ->name('admin.login.store');
+
 Route::post('/logout', LogoutController::class)->name('logout');
 
 Route::middleware('auth')->group(function () {
@@ -67,7 +73,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/alertes', [AdminController::class, 'alertes'])->name('admin.alertes');
     Route::put('/alertes/{alerte}', [AdminController::class, 'setStatut'])->name('admin.alertes.statut');
     Route::get('/comptes', [AdminController::class, 'comptes'])->name('admin.comptes');
-    Route::put('/comptes/{user}', [AdminController::class, 'setType'])->name('admin.comptes.type');
+    Route::get('/comptes/creer', [AdminController::class, 'createCompte'])->name('admin.comptes.create');
+    Route::post('/comptes', [AdminController::class, 'storeCompte'])->name('admin.comptes.store');
     Route::delete('/comptes/{user}', [AdminController::class, 'destroyUser'])->name('admin.comptes.destroy');
 
     Route::get('/support', [SupportController::class, 'adminIndex'])->name('admin.support');

@@ -462,6 +462,21 @@ a.mini-alert:hover { border-color: var(--rouge); background: #FEF7F7; }
 .statut-en_attente { background: var(--ambre-clair); color: var(--ambre); }
 .statut-confirmee { background: var(--vert-clair); color: var(--vert); }
 .statut-refusee { background: var(--rouge-clair); color: var(--rouge); }
+
+.badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-weight: 600; font-size: .78rem;
+    padding: 3px 10px; border-radius: 20px;
+    background: #EEF1F5; color: var(--doux);
+}
+
+.badge-admin {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-weight: 700; font-size: .75rem;
+    padding: 3px 9px; border-radius: 20px;
+    margin-left: 8px;
+    background: var(--nuit); color: #fff;
+}
 .statut-active { background: var(--vert-clair); color: var(--vert); }
 .statut-terminee { background: var(--bleu-clair); color: var(--bleu); }
 .statut-rejetee { background: var(--rouge-clair); color: var(--rouge); }
@@ -1036,6 +1051,28 @@ a.mini-alert:hover { border-color: var(--rouge); background: #FEF7F7; }
 .auth-form .auth-card { max-width: 100%; width: 100%; }
 
 .brand-logo-lg { width: 56px; height: 56px; border-radius: 14px; }
+
+/* ---------- Page vierge (auth admin) ---------- */
+.blank-layout .blank-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    width: min(1560px, 96%);
+    margin: 0 auto;
+}
+
+.blank-layout .blank-main .auth-page { width: 100%; max-width: 980px; }
+
+.blank-layout .site-header .brand { cursor: default; }
+
+.blank-layout .footer-grid { grid-template-columns: 1.4fr 1fr; }
+
+.blank-layout .footer-bottom { padding: 10px 0; }
+
+
 
 /* ---------- Héros compact (pages intérieures) ---------- */
 .hero-compact {

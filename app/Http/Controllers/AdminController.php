@@ -56,19 +56,33 @@ class AdminController extends Controller
         return view('admin.comptes', ['users' => $query->latest()->paginate(15)->withQueryString()]);
     }
 
-    public function setType(Request $request, User $user)
+    public function createCompte()
+    {
+        return view('admin.compte-create');
+    }
+
+    public function storeCompte(Request $request)
     {
         $data = $request->validate([
-            'type' => ['required', Rule::in(['particulier', 'structure', 'admin'])],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'type' => ['required', Rule::in(['admin', 'structure', 'particulier'])],
+        ], [
+            'name.required' => 'Le nom est obligatoire.',
+            'email.required' => 'L\'adresse e-mail est obligatoire.',
+            'email.email' => 'L\'adresse e-mail n\'est pas valide.',
+            'email.unique' => 'Cette adresse e-mail est déjà utilisée.',
+            'password.required' => 'Le mot de passe est obligatoire.',
+            'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',
+            'password.confirmed' => 'La confirmation du mot de passe ne correspond pas.',
         ]);
 
-        if ($user->id === auth()->id()) {
-            return back()->with('error', 'Vous ne pouvez pas modifier votre propre rôle.');
-        }
+        $data['city'] = $data['city'] ?? 'Libreville';
 
-        $user->update(['type' => $data['type']]);
+        User::create($data);
 
-        return back()->with('success', "Rôle de {$user->name} mis à jour.");
+        return redirect()->route('admin.comptes')->with('success', 'Compte créé avec succès.');
     }
 
     public function destroyUser(User $user)

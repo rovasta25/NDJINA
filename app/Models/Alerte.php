@@ -39,11 +39,6 @@ class Alerte extends Model
         return $this->hasMany(Reponse::class);
     }
 
-    public function messages()
-    {
-        return $this->hasMany(Message::class);
-    }
-
     public function scopeActives($query)
     {
         return $query->where('statut', 'active');

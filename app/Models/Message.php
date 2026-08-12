@@ -24,11 +24,6 @@ class Message extends Model
         ];
     }
 
-    public function isSupport(): bool
-    {
-        return $this->alerte_id === null;
-    }
-
     public function alerte()
     {
         return $this->belongsTo(Alerte::class);
@@ -37,10 +32,5 @@ class Message extends Model
     public function expediteur()
     {
         return $this->belongsTo(User::class, 'expediteur_id');
-    }
-
-    public function destinataire()
-    {
-        return $this->belongsTo(User::class, 'destinataire_id');
     }
 }

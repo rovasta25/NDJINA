@@ -77,11 +77,11 @@
                                     <div class="response-actions">
                                         <span class="statut-badge statut-{{ $reponse->statut }}">{{ $reponse->statut }}</span>
                                         @if ($reponse->statut === 'en_attente')
-                                            <form method="POST" action="{{ route('reponses.confirmer', $reponse) }}">
+                                            <form method="POST" action="{{ route('reponses.confirmer', $reponse) }}" data-confirm="Confirmer {{ $reponse->user->name }} comme donneur ? Les autres propositions seront annulées.">
                                                 @csrf
                                                 <button class="btn btn-sm btn-primary" title="Confirmer ce donneur"><x-icon name="check" class="icon-sm"/></button>
                                             </form>
-                                            <form method="POST" action="{{ route('reponses.refuser', $reponse) }}">
+                                            <form method="POST" action="{{ route('reponses.refuser', $reponse) }}" data-confirm="Refuser la proposition de {{ $reponse->user->name }} ?">
                                                 @csrf
                                                 <button class="btn btn-sm btn-ghost" title="Refuser"><x-icon name="x" class="icon-sm"/></button>
                                             </form>
