@@ -20,7 +20,7 @@
 
     <header class="site-header">
         <div class="container header-inner">
-            <a href="{{ route('home') }}" class="brand">
+            <a href="{{ auth()->check() ? route('dashboard') : route('home') }}" class="brand">
                 <span class="brand-logo"><x-icon name="droplet" class="icon-lg"/></span>
                 <span class="brand-name">NDJINA</span>
             </a>
@@ -89,7 +89,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col footer-col-brand">
-                    <a href="{{ route('home') }}" class="footer-brand">
+                    <a href="{{ auth()->check() ? route('dashboard') : route('home') }}" class="footer-brand">
                         <span class="brand-logo"><x-icon name="droplet" class="icon-lg"/></span>
                         <span class="brand-name">NDJINA</span>
                     </a>
