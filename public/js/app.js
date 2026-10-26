@@ -115,6 +115,7 @@
 
         var L = window.labels || {};
         var timer = null;
+        var position = null;
 
         var esc = function (s) {
             var d = document.createElement('div');
@@ -128,6 +129,11 @@
                 var v = filters[k] && filters[k].value;
                 if (v) params.set(k, v);
             });
+
+            if (position) {
+                params.set('lat', position.latitude.toFixed(6));
+                params.set('lng', position.longitude.toFixed(6));
+            }
 
             fetch(window.alertesApi + '?' + params.toString(), {
                 headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
@@ -160,6 +166,7 @@
                     (a.mine ? ' <span class="mine-badge">Votre alerte</span>' : '') + '</div>' +
                     '<div class="alert-item-meta">' +
                     '<span><svg class="icon"><use href="#i-pin"></use></svg>' + esc(lieu) + esc(a.ville) + '</span>' +
+                    (a.distance ? '<span><svg class="icon"><use href="#i-pin"></use></svg>' + esc(a.distance) + '</span>' : '') +
                     '<span><svg class="icon"><use href="#i-clock"></use></svg>' + esc(a.temps) + '</span>' +
                     '<span><svg class="icon"><use href="#i-users"></use></svg>' + esc(a.reponses_count) + ' ' + esc(rep) + '</span>' +
                     '</div></div>' +
@@ -186,5 +193,12 @@
 
         load();
         setInterval(load, 20000);
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (pos) {
+                position = pos.coords;
+                load();
+            }, function () { /* position de profil utilisee */ }, { timeout: 4000, maximumAge: 300000 });
+        }
     }
 })();

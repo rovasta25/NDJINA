@@ -66,6 +66,8 @@
                 <input type="text" id="lieu" name="lieu" value="{{ old('lieu', $alerte->lieu) }}" placeholder="CHU de Libreville">
             </div>
 
+            @include('partials.geolocate', ['lat' => $alerte->latitude, 'lng' => $alerte->longitude])
+
             <div class="form-group">
                 <label for="description">Description</label>
                 <textarea id="description" name="description" rows="4">{{ old('description', $alerte->description) }}</textarea>

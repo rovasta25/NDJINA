@@ -77,7 +77,7 @@
 
         <div class="dash-grid-2">
             <div class="section-block">
-                <div class="section-head"><h2>Alertes récentes à {{ $user->city }}</h2><a href="{{ route('alertes.index') }}" class="btn btn-ghost btn-sm">Tout voir <x-icon name="arrow" class="icon-sm"/></a></div>
+                <div class="section-head"><h2>Alertes proches de vous</h2><a href="{{ route('alertes.index') }}" class="btn btn-ghost btn-sm">Tout voir <x-icon name="arrow" class="icon-sm"/></a></div>
                 <div class="alerts-mini">
                     @forelse ($recentes as $alerte)
                         <a href="{{ route('alertes.show', ['alerte' => $alerte, 'from' => 'dashboard']) }}" class="mini-alert{{ $alerte->user_id === $user->id ? ' mine' : '' }}">
@@ -91,7 +91,7 @@
                     @empty
                         <div class="empty-state small">
                             <x-icon name="checkc" class="icon-xl"/>
-                            <p class="muted">Aucune alerte active dans votre ville pour le moment.</p>
+                            <p class="muted">Aucune alerte active pour le moment.</p>
                         </div>
                     @endforelse
                 </div>

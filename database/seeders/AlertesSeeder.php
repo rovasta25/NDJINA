@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Alerte;
 use App\Models\GroupeSanguin;
 use App\Models\User;
+use App\Support\GabonCities;
 use Illuminate\Database\Seeder;
 
 class AlertesSeeder extends Seeder
@@ -17,7 +18,7 @@ class AlertesSeeder extends Seeder
         ];
 
         foreach ($comptesManquants as $c) {
-            User::updateOrCreate(
+            $user = User::updateOrCreate(
                 ['email' => $c['email']],
                 [
                     'name' => $c['name'],
@@ -28,6 +29,11 @@ class AlertesSeeder extends Seeder
                     'city' => $c['city'],
                 ]
             );
+
+            if ($user->latitude === null) {
+                [$lat, $lng] = GabonCities::coords($c['city']) ?? [0.4162, 9.4673];
+                $user->forceFill(['latitude' => $lat, 'longitude' => $lng])->save();
+            }
         }
 
         $groupe = fn (string $libelle) => GroupeSanguin::where('libelle', $libelle)->value('id');
@@ -55,8 +61,11 @@ class AlertesSeeder extends Seeder
             ['user' => 'mireille.tchibanga@test.gab', 'groupe' => 'O+', 'quantite' => 1, 'urgence' => 'moyenne', 'lieu' => 'Centre de Santé de Tchibanga', 'ville' => 'Tchibanga', 'statut' => 'active', 'date' => '2026-08-05 18:48:48'],
         ];
 
-        foreach ($alertes as $a) {
-            Alerte::firstOrCreate(
+        foreach ($alertes as $index => $a) {
+            [$lat, $lng] = GabonCities::coords($a['ville']) ?? [0.4162, 9.4673];
+            $spread = ($index % 6) * 0.004;
+
+            Alerte::updateOrCreate(
                 [
                     'user_id' => User::where('email', $a['user'])->value('id'),
                     'groupe_sanguin_id' => $groupe($a['groupe']),
@@ -67,6 +76,8 @@ class AlertesSeeder extends Seeder
                     'quantite' => $a['quantite'],
                     'urgence' => $a['urgence'],
                     'statut' => $a['statut'],
+                    'latitude' => $lat + $spread,
+                    'longitude' => $lng + $spread,
                     'created_at' => $a['date'],
                     'updated_at' => $a['date'],
                 ]

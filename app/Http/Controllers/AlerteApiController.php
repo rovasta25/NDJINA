@@ -46,8 +46,31 @@ class AlerteApiController extends Controller
             $query->whereDate('created_at', '>=', today()->subMonth());
         }
 
-        $userId = auth()->id();
+        $user = auth()->user();
+        $userId = $user?->id;
+
+        $originLat = is_numeric($request->input('lat'))
+            ? (float) $request->input('lat')
+            : ($user?->latitude !== null ? (float) $user->latitude : null);
+        $originLng = is_numeric($request->input('lng'))
+            ? (float) $request->input('lng')
+            : ($user?->longitude !== null ? (float) $user->longitude : null);
+
         $alertes = $query->limit(60)->get();
+
+        if ($originLat !== null && $originLng !== null) {
+            $alertes = $alertes
+                ->each(function (Alerte $alerte) use ($originLat, $originLng) {
+                    $alerte->distance_km = Alerte::distanceKm(
+                        $originLat,
+                        $originLng,
+                        $alerte->latitude,
+                        $alerte->longitude
+                    );
+                })
+                ->sortBy(fn (Alerte $alerte) => $alerte->distance_km ?? PHP_FLOAT_MAX)
+                ->values();
+        }
 
         return response()->json([
             'data' => $alertes->map(function (Alerte $alerte) use ($userId) {
@@ -60,6 +83,9 @@ class AlerteApiController extends Controller
                     'urgence_label' => $alerte->urgenceLabel(),
                     'lieu' => $alerte->lieu,
                     'ville' => $alerte->ville,
+                    'distance' => ($alerte->distance_km ?? null) !== null
+                        ? Alerte::formatDistance($alerte->distance_km)
+                        : null,
                     'description' => $alerte->description,
                     'temps' => $alerte->created_at->diffForHumans(),
                     'date' => $alerte->created_at->format('d/m/Y H:i'),

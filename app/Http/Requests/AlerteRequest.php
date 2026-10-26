@@ -20,6 +20,8 @@ class AlerteRequest extends FormRequest
             'urgence' => ['required', Rule::in(['haute', 'moyenne', 'basse'])],
             'lieu' => ['nullable', 'string', 'max:255'],
             'ville' => ['required', 'string', 'max:255'],
+            'latitude' => ['nullable', 'numeric', 'between:-90,90'],
+            'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'description' => ['nullable', 'string', 'max:1000'],
         ];
     }
@@ -37,6 +39,8 @@ class AlerteRequest extends FormRequest
             'urgence.in' => 'Le niveau d\'urgence choisi n\'est pas valide.',
             'ville.required' => 'La ville est obligatoire.',
             'ville.max' => 'La ville est trop longue.',
+            'latitude.between' => 'La latitude n\'est pas valide.',
+            'longitude.between' => 'La longitude n\'est pas valide.',
             'description.max' => 'La description est trop longue (1000 caractères max).',
         ];
     }

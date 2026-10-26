@@ -152,11 +152,10 @@
 
                 var city = document.getElementById('city');
                 var help = document.getElementById('city-help');
-                fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + lat + '&lon=' + lng + '&accept-language=fr')
+                fetch('{{ route('geocode.reverse') }}?lat=' + lat + '&lng=' + lng, { headers: { 'Accept': 'application/json' } })
                     .then(function (r) { return r.json(); })
                     .then(function (data) {
-                        var addr = data.address || {};
-                        var nom = addr.city || addr.town || addr.village || addr.municipality || addr.county || addr.state || '';
+                        var nom = data.city || '';
                         if (nom) {
                             city.value = nom;
                             if (help) help.textContent = 'Ville détectée automatiquement.';

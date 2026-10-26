@@ -62,6 +62,8 @@
                 <input type="text" id="lieu" name="lieu" value="{{ old('lieu') }}" placeholder="CHU de Libreville">
             </div>
 
+            @include('partials.geolocate')
+
             <div class="form-group">
                 <label for="description">Description <span class="muted">(optionnel)</span></label>
                 <textarea id="description" name="description" rows="4" placeholder="Contexte, date de l'intervention, instructions…">{{ old('description') }}</textarea>

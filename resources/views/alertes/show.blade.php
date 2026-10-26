@@ -47,7 +47,11 @@
                 <div class="detail-meta">
                     <div class="meta-item">
                         <x-icon name="pin" class="icon-md"/>
-                        <div><strong>{{ $alerte->ville }}</strong>@if ($alerte->lieu)<br><span class="muted">{{ $alerte->lieu }}</span>@endif</div>
+                        <div><strong>{{ $alerte->ville }}</strong>@if ($alerte->lieu)<br><span class="muted">{{ $alerte->lieu }}</span>@endif
+                            @if ($alerte->hasPosition())
+                                <br><a class="muted" href="https://www.openstreetmap.org/?mlat={{ $alerte->latitude }}&mlon={{ $alerte->longitude }}#map=16/{{ $alerte->latitude }}/{{ $alerte->longitude }}" target="_blank" rel="noopener">Voir sur la carte</a>
+                            @endif
+                        </div>
                     </div>
                     <div class="meta-item">
                         <x-icon name="droplet" class="icon-md"/>

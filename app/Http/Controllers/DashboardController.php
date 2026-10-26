@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Alerte;
 use App\Models\Message;
 use App\Models\Reponse;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -18,7 +19,7 @@ class DashboardController extends Controller
                 'stats' => [
                     'alertes_actives' => Alerte::actives()->count(),
                     'total_alertes' => Alerte::count(),
-                    'total_users' => \App\Models\User::count(),
+                    'total_users' => User::count(),
                 ],
                 'recentes' => Alerte::with('user', 'groupeSanguin')->latest()->take(5)->get(),
             ]);
@@ -37,10 +38,26 @@ class DashboardController extends Controller
 
         $recentes = Alerte::actives()
             ->with('user', 'groupeSanguin')
-            ->where('ville', $user->city)
             ->latest()
-            ->take(5)
+            ->take(60)
             ->get();
+
+        if ($user->latitude !== null && $user->longitude !== null) {
+            $recentes = $recentes
+                ->each(function (Alerte $alerte) use ($user) {
+                    $alerte->distance_km = Alerte::distanceKm(
+                        (float) $user->latitude,
+                        (float) $user->longitude,
+                        $alerte->latitude,
+                        $alerte->longitude
+                    );
+                })
+                ->sortBy(fn (Alerte $alerte) => $alerte->distance_km ?? PHP_FLOAT_MAX)
+                ->take(5)
+                ->values();
+        } else {
+            $recentes = $recentes->take(5);
+        }
 
         return view('dashboard', [
             'user' => $user,
