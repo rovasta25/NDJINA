@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Alerte;
 use App\Models\Reponse;
+use App\Services\PushNotifier;
 use Illuminate\Http\Request;
 
 class ReponseController extends Controller
@@ -30,11 +31,13 @@ class ReponseController extends Controller
             return back()->with('error', 'Vous avez déjà proposé votre aide pour cette alerte.');
         }
 
-        Reponse::create([
+        $reponse = Reponse::create([
             'alerte_id' => $alerte->id,
             'user_id' => auth()->id(),
             'message' => $data['message'] ?? null,
         ]);
+
+        app(PushNotifier::class)->reponse($reponse);
 
         return back()->with('success', 'Merci ! Votre proposition a été envoyée au demandeur. Vous pouvez échanger dans la messagerie.');
     }
@@ -48,6 +51,8 @@ class ReponseController extends Controller
         }
 
         $reponse->update(['statut' => 'confirmee']);
+
+        app(PushNotifier::class)->reponseConfirmee($reponse);
 
         Reponse::where('alerte_id', $reponse->alerte_id)
             ->where('id', '!=', $reponse->id)

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Alerte;
 use App\Models\Message;
+use App\Models\Reponse;
 use App\Models\User;
+use App\Services\PushNotifier;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -25,7 +27,7 @@ class MessageController extends Controller
             }
         }
 
-        $mesReponses = \App\Models\Reponse::where('user_id', $me)
+        $mesReponses = Reponse::where('user_id', $me)
             ->with(['alerte.user', 'alerte.groupeSanguin'])
             ->get();
         foreach ($mesReponses as $reponse) {
@@ -75,12 +77,14 @@ class MessageController extends Controller
             'contenu.max' => 'Le message est trop long (2000 caractères max).',
         ]);
 
-        Message::create([
+        $message = Message::create([
             'alerte_id' => $alerte->id,
             'expediteur_id' => auth()->id(),
             'destinataire_id' => $user->id,
             'contenu' => $data['contenu'],
         ]);
+
+        app(PushNotifier::class)->message($message);
 
         return redirect()->route('messages.show', [$alerte, $user])
             ->with('success', 'Message envoyé.');
@@ -119,7 +123,7 @@ class MessageController extends Controller
             ->first();
 
         return [
-            'key' => $alerte->id . '-' . $other->id,
+            'key' => $alerte->id.'-'.$other->id,
             'alerte' => $alerte,
             'autre' => $other,
             'unread' => $unread,
