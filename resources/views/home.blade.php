@@ -5,10 +5,9 @@
 @section('content')
     <section class="hero">
         <div class="hero-content reveal">
-            <span class="hero-eyebrow">Plateforme gabonaise de don de sang</span>
-            <div class="hero-brandname">NDJINA</div>
+            <span class="hero-eyebrow">Don de sang au Gabon</span>
             <h1>Quand chaque minute compte,<br><span class="hero-accent">chaque donneur compte.</span></h1>
-            <p>NDJINA est la plateforme qui met en relation, en temps réel, les personnes ayant besoin de sang et les donneurs volontaires compatibles — par groupe sanguin, urgence et localisation.</p>
+            <p>NDJINA met en relation, en temps réel, les personnes ayant besoin de sang et les donneurs volontaires compatibles — par groupe sanguin, urgence et localisation.</p>
             <div class="hero-actions">
                 @auth
                     <a href="{{ route('alertes.index') }}" class="btn btn-primary btn-lg"><x-icon name="bell" class="icon-sm"/> Voir les alertes</a>
