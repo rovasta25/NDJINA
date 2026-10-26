@@ -62,6 +62,11 @@ class PushNotifier
             foreach ($webPush->flush() as $report) {
                 if ($report->isSubscriptionExpired()) {
                     PushSubscription::where('endpoint_hash', hash('sha256', $report->getEndpoint()))->delete();
+                } elseif (! $report->isSuccess()) {
+                    Log::warning('Push delivery failed', [
+                        'endpoint' => substr($report->getEndpoint(), 0, 40),
+                        'reason' => $report->getReason(),
+                    ]);
                 }
             }
         } catch (Throwable $exception) {

@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
         libzip-dev \
         unzip \
         git \
-    && docker-php-ext-install pdo_pgsql pgsql \
+    && docker-php-ext-install pdo_pgsql pgsql bcmath \
     && docker-php-ext-install zip \
     && a2enmod rewrite
 
