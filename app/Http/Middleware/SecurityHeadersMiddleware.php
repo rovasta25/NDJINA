@@ -23,15 +23,17 @@ class SecurityHeadersMiddleware
         }
 
         $response->headers->set('Content-Security-Policy',
-            "default-src 'self'; " .
-            "script-src 'self' 'unsafe-inline'; " .
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " .
-            "font-src 'self' https://fonts.gstatic.com; " .
-            "img-src 'self' data:; " .
-            "connect-src 'self'; " .
-            "frame-src 'self'; " .
-            "object-src 'none'; " .
-            "base-uri 'self'; " .
+            "default-src 'self'; ".
+            "script-src 'self' 'unsafe-inline'; ".
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; ".
+            "font-src 'self' https://fonts.gstatic.com; ".
+            "img-src 'self' data:; ".
+            "connect-src 'self'; ".
+            "worker-src 'self'; ".
+            "manifest-src 'self'; ".
+            "frame-src 'self'; ".
+            "object-src 'none'; ".
+            "base-uri 'self'; ".
             "form-action 'self'"
         );
 

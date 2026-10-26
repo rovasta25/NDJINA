@@ -3,6 +3,8 @@
 @section('title', 'Alertes de sang')
 
 @section('content')
+    @include('partials.push-toggle')
+
     <div class="page-head">
         <div>
             <h1>Alertes en cours</h1>

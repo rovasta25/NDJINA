@@ -60,11 +60,11 @@ class User extends Authenticatable
 
     public function maskedPhone(): string
     {
-        if (!$this->phone) {
+        if (! $this->phone) {
             return '—';
         }
 
-        return substr($this->phone, 0, 2) . str_repeat('*', max(0, strlen($this->phone) - 4)) . substr($this->phone, -2);
+        return substr($this->phone, 0, 2).str_repeat('*', max(0, strlen($this->phone) - 4)).substr($this->phone, -2);
     }
 
     public function isStructure(): bool
@@ -92,5 +92,10 @@ class User extends Authenticatable
     public function reponses()
     {
         return $this->hasMany(Reponse::class);
+    }
+
+    public function pushSubscriptions()
+    {
+        return $this->hasMany(PushSubscription::class);
     }
 }

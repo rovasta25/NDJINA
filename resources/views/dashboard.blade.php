@@ -7,6 +7,8 @@
         $isAdmin = $user->isAdmin();
     @endphp
 
+    @include('partials.push-toggle')
+
     <div class="dash-hello">
         <div>
             <h1>Bonjour, {{ $user->name }}</h1>

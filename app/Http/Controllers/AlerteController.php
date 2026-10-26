@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AlerteRequest;
 use App\Models\Alerte;
 use App\Models\GroupeSanguin;
+use App\Services\PushNotifier;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -33,7 +34,9 @@ class AlerteController extends Controller
         $data = $request->validated();
         $data['user_id'] = auth()->id();
 
-        Alerte::create($data);
+        $alerte = Alerte::create($data);
+
+        app(PushNotifier::class)->alerte($alerte);
 
         return redirect()->route('alertes.mes')
             ->with('success', 'Votre alerte a été publiée. Elle est maintenant visible par les donneurs proches.');
@@ -41,7 +44,7 @@ class AlerteController extends Controller
 
     public function show(Alerte $alerte)
     {
-        if ($alerte->statut !== 'active' && !auth()->user()->isAdmin() && $alerte->user_id !== auth()->id()) {
+        if ($alerte->statut !== 'active' && ! auth()->user()->isAdmin() && $alerte->user_id !== auth()->id()) {
             abort(404);
         }
 

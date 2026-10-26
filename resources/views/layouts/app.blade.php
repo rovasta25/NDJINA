@@ -8,6 +8,9 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16.png') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+    <meta name="theme-color" content="#C62828">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -137,5 +140,6 @@
 
     @yield('scripts')
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/push.js') }}"></script>
 </body>
 </html>

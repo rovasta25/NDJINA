@@ -12,6 +12,7 @@ use App\Http\Controllers\GeocodeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PushSubscriptionController;
 use App\Http\Controllers\ReponseController;
 use App\Http\Controllers\SupportController;
 use Illuminate\Support\Facades\Route;
@@ -64,6 +65,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::get('/messages/{alerte}/{user}', [MessageController::class, 'show'])->name('messages.show');
     Route::post('/messages/{alerte}/{user}', [MessageController::class, 'store'])->name('messages.store');
+
+    Route::post('/push/abonnement', [PushSubscriptionController::class, 'store'])->name('push.store');
+    Route::delete('/push/abonnement', [PushSubscriptionController::class, 'destroy'])->name('push.destroy');
 
     Route::get('/profil', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('/profil', [ProfileController::class, 'update'])->name('profile.update');
